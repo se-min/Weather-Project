@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="src/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://kit.fontawesome.com/accb5859fe.js" crossorigin="anonymous"></script>
+    <title>Weather</title>
+</head>
+<body>
+    <div class="container">
+      <header>
+      <div class="row">
+        <div class="col">
+            <form id = "city-form">
+              <input  id ="city-input" type="text" placeholder="Enter City" autocomplete="off">
+            </form>
+        </div>
+        <div class="col">
+            <button><i class="fas fa-map-marker-alt"></i></button>
+        </div>
+
+        <div class="col unit">
+            <a id ="tempC" class="unit-used" href="">°C</a>
+                /
+            <a id="tempF" href="">°F</a>
+        </div>
+      </div>
+      </header>
+
+    <!--Todays weather box-->
+<section class="today">
+      <div class="row">
+        <div  class="col-7 border-end border-2 border-dark"> 
+          <h1 id ="city">Berlin</h1> <h3 id="country">, Country</h3>
+          <br/>
+          <p id ="time" class="date"></p>
+          <span id="currentTemp">29°</span> <span id="icon"><img src="img/Sonne.png" alt=""></span>
+        </div>
+        <div class="col-5">
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col" id="discription">sunny</div>
+          <div class="col"></div>
+        </div>
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col">Humidity</div>
+            <div class="col" id="humidity">20%</div>
+          </div>
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col">Wind</div>
+            <div class="col" id="wind">10 km/h</div>
+          </div>
+        </div>
+        <div class="col-7 border-end border-2 border-dark">
+        </div>
+        
+      </div>
+</section>
+
+    <!-- Forecast box-->
+    
+<section class="forecast">
+  
+
+    <div class="row border-bottom border-1 border-dark">
+      <div class="col-5" id="forecastDay1">Tomorrow</div>
+      <div class="col-5">24°<span class="temp-low">/20°</span></div>
+      <div class="col-2"><img src="img/wolke.png" alt=""></div>
+    </div>
+    <div class="row border-bottom border-1  border-dark">
+      <div class="col-5" id="forecastDay2">Thursday</div>
+      <div class="col-5">25°<span class="temp-low">/22°</span></div>
+      <div class="col-2"><img src="img/leicht bewölkt.png" alt=""></div>
+    </div>
+    <div class="row border-bottom border-1 border-dark">
+      <div class="col-5" id="forecastDay3">Friday</div>
+      <div class="col-5">21°<span class="temp-low">/20°</span></div>
+      <div class="col-2"><img src="img/leicht bewölkt.png" alt=""></div>
+    </div>
+    <div class="row border-bottom border-1 border-dark">
+      <div class="col-5" id="forecastDay4">Saturday</div>
+      <div class="col-5">24°<span class="temp-low">/18°</span></div>
+      <div class="col-2"><img src="img/leicht bewölkt.png" alt=""></div>
+    </div>
+    <div class="row border-bottom border-1 border-dark">
+      <div class="col-5" id="forecastDay5" >Sunday</div>
+      <div class="col-5">24°<span class="temp-low">/19°</span></div>
+      <div class="col-2"><img src="img/leicht bewölkt.png" alt=""></div>
+    </div>
+    <div class="row">
+      <div class="col-5" id="forecastDay6">Monday</div>
+      <div class="col-5">26°<span class="temp-low">/24°</span></div>
+      <div class="col-2"><img src="img/leicht bewölkt.png" alt=""></div>
+    </div>
+
+    </section>
+    </div>
+    <script src="src/javaScript.js"></script>
+</body>
+</html>
