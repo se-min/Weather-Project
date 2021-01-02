@@ -1,6 +1,8 @@
 // Date and Time
-let time = document.querySelector("#time");
-let now = new Date();
+function changeTime(timestamp){
+let timeElement = document.querySelector("#time");
+let now = new Date(timestamp);
+
 let day = now.getDay();
 let hours = now.getHours();
 if (hours < 10) {
@@ -27,8 +29,17 @@ let dayName = [
   "Friday",
   "Saturday"
 ];
-time.innerHTML = `${dayName[day]} ${hours}:${minutes}`;
+timeElement.innerHTML = `${dayName[day]} ${hours}:${minutes}`;
 
+// Forcast box
+// enter days
+document.querySelector("#forecastDay1").innerHTML =`${dayName[day+1]}`;
+document.querySelector("#forecastDay2").innerHTML =`${dayName[day+2]}`;
+document.querySelector("#forecastDay3").innerHTML =`${dayName[day+3]}`;
+document.querySelector("#forecastDay4").innerHTML =`${dayName[day+4]}`;
+document.querySelector("#forecastDay5").innerHTML =`${dayName[day+5]}`;
+document.querySelector("#forecastDay6").innerHTML =`${dayName[day+6]}`;
+}
 
 
 // Get weather from API
@@ -43,7 +54,7 @@ function displayWeather(response) {
   let wind = document.querySelector("#wind");
   currentTemp.innerHTML = `${Math.round(response.data.main.temp)}°`;
   country.innerHTML = `, ${response.data.sys.country}`;
-  discription.innerHTML = response.data.weather[0].main;
+  discription.innerHTML = response.data.weather[0].description;
   humidity.innerHTML = `${response.data.main.humidity}%`;
   wind.innerHTML = `${Math.round(response.data.wind.speed * 3.6)} km/h`;
 
@@ -51,6 +62,14 @@ function displayWeather(response) {
   console.log (response.data.weather[0].icon);
   document.querySelector("#icon").innerHTML = `<img src="http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png" width = 90px>`;
   
+  // formatting time
+  //calculate time difference from UTC at current position 
+  let localTimestamp = new Date().getTime();
+  let localOffsetToUTC = new Date().getTimezoneOffset()*60000;
+  let cityOffsettoUTC = response.data.timezone *1000;
+  let timestamp = localTimestamp + localOffsetToUTC + cityOffsettoUTC;
+
+  changeTime (timestamp);
 }
 
 // Default weather Berlin
@@ -130,11 +149,3 @@ let tempF = document.querySelector("#tempF");
 tempF.addEventListener("click", convertCelciusToFarenheit);
 tempC.addEventListener("click", convertFarenheitToCelcius);
 
-// Forcast box
-// enter days
-document.querySelector("#forecastDay1").innerHTML =`${dayName[day+1]}`;
-document.querySelector("#forecastDay2").innerHTML =`${dayName[day+2]}`;
-document.querySelector("#forecastDay3").innerHTML =`${dayName[day+3]}`;
-document.querySelector("#forecastDay4").innerHTML =`${dayName[day+4]}`;
-document.querySelector("#forecastDay5").innerHTML =`${dayName[day+5]}`;
-document.querySelector("#forecastDay6").innerHTML =`${dayName[day+6]}`;
