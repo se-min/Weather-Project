@@ -63,6 +63,9 @@ h3 {
 .date {
   font-size: 15px;
 }
+#discription::first-letter {
+  text-transform: capitalize;
+}
 
 header {
   padding: 40px;
