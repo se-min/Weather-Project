@@ -50,13 +50,17 @@ function displayWeather(response) {
   //icon 
   console.log (response.data.weather[0].icon);
   document.querySelector("#icon").innerHTML = `<img src="http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png" width = 90px>`;
+  
 }
 
 // Default weather Berlin
+
 let apiKey = "774391238c6a53bc1cf424560a1347de";
 let defaultCity = "Berlin";
 let defaultUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultCity}&appid=${apiKey}&units=metric`;
 axios.get(defaultUrl).then(displayWeather);
+
+
 
 //City change
 
@@ -94,12 +98,11 @@ position.addEventListener("click", getLocation);
 
 
 //Unit change
-function convertCelciusToFarenheit(event){
+function convertCelciusToFarenheit(event, response){
     event.preventDefault();
     let max = document.querySelector("#currentTemp");
     let min = document.querySelector("#tempMin");
-    max.innerHTML = "84°";
-    min.innerHTML = "/77";
+      
 
     let unitF = document.querySelector("#tempF");
     unitF.classList.add("unit-used");
@@ -110,10 +113,9 @@ function convertCelciusToFarenheit(event){
 
 function convertFarenheitToCelcius(event){
     event.preventDefault();
-    let max = document.querySelector("#currentTemp");
-    let min = document.querySelector("#tempMin");
-    max.innerHTML = "29°";
-    min.innerHTML = "/25";
+    //let max = document.querySelector("#currentTemp");
+    //max.innerHTML = `${document.querySelector("#currentTemp")*9/5 +32}°`;
+    
 
     let unitF = document.querySelector("#tempF");
     unitF.classList.remove("unit-used");

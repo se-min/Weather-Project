@@ -1,17 +1,17 @@
 body {
   /*font-family: "Times New Roman", Times, serif;*/
   font-family: "Raleway", sans-serif;
-  background-color: whitesmoke;
+  background-color: white;
 }
 
 .container {
-  margin: 50px auto;
+  margin: 50px auto 0 auto;
   width: 100%;
   max-width: 500px;
   border: solid 1px;
   border-radius: 5px;
-
-  background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+  background-color: #fffef0;
+  /*background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);*/
 }
 button {
   background-color: white;
@@ -98,4 +98,11 @@ header {
 }
 .temp-low {
   font-size: 13px;
+}
+
+.subtext {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 50px auto;
+  font-size: 12px;
 }
