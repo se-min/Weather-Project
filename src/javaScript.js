@@ -90,6 +90,11 @@ axios.get(defaultUrl).then(displayWeather);
 
 function changeCity(event) {
   event.preventDefault();
+  
+  // Set unit back to default Celsius if changed prior
+  document.querySelector("#tempF").classList.remove("unit-used");
+  document.querySelector("#tempC").classList.add("unit-used");
+
   let city = document.querySelector("#city-input").value;
 
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
