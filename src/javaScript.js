@@ -24,25 +24,14 @@ let dayName = [
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
+  "Sunday"
 ];
 timeElement.innerHTML = `${dayName[day]} ${hours}:${minutes}`;
 
-// Forcast box
-// enter days
-document.querySelector("#forecastDay1").innerHTML =`${dayName[day+1]}`;
-document.querySelector("#forecastDay2").innerHTML =`${dayName[day+2]}`;
-document.querySelector("#forecastDay3").innerHTML =`${dayName[day+3]}`;
-document.querySelector("#forecastDay4").innerHTML =`${dayName[day+4]}`;
-document.querySelector("#forecastDay5").innerHTML =`${dayName[day+5]}`;
-document.querySelector("#forecastDay6").innerHTML =`${dayName[day+6]}`;
+
+
 }
+
 
 
 // Get weather from API
@@ -77,12 +66,36 @@ function displayWeather(response) {
   let timestamp = localTimestamp + localOffsetToUTC + cityOffsettoUTC;
 
   changeTime (timestamp);
+  
+}
+
+function displayForecast(response){
+console.log(response);
+for (let count = 0; count < 6; count ++){
+let hours = new Date (response.data.list[count].dt*1000).getHours();
+if (hours < 10) {
+  hours = `0${hours}`;
+}
+let minutes = new Date (response.data.list[count].dt*1000).getMinutes();
+if (minutes < 10) {
+  minutes = `0${minutes}`;
+}
+document.querySelector(`#time${count+1}`).innerHTML = `${hours}:${minutes} `;
+document.querySelector(`#maxTemp${count+1}`).innerHTML = `${Math.round(response.data.list[count].main.temp_max)}°`;
+document.querySelector(`#lowTemp${count+1}`).innerHTML = `/${Math.round(response.data.list[count].main.temp_min)}°`;
+document.querySelector(`#fcImg${count+1}`).innerHTML = `<img src="http://openweathermap.org/img/wn/${response.data.list[count].weather[0].icon}@2x.png" width = 60px>`;
+}
+
+
 }
 
 // Default weather Berlin
 let defaultCity = "Berlin";
 let defaultUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultCity}&appid=${apiKey}&units=metric`;
 axios.get(defaultUrl).then(displayWeather);
+// 3h slot forecast
+  let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${defaultCity}&appid=${apiKey}&units=metric`;
+  axios.get(forecastURL).then(displayForecast);
 
 
 
@@ -90,7 +103,7 @@ axios.get(defaultUrl).then(displayWeather);
 
 function changeCity(event) {
   event.preventDefault();
-  
+
   // Set unit back to default Celsius if changed prior
   document.querySelector("#tempF").classList.remove("unit-used");
   document.querySelector("#tempC").classList.add("unit-used");
@@ -99,6 +112,11 @@ function changeCity(event) {
 
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
   axios.get(url).then(displayWeather);
+
+  // 3h slot forecast
+  let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+  axios.get(forecastURL).then(displayForecast);
+  
 }
 
 
