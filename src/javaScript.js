@@ -1,5 +1,7 @@
 let apiKey = "774391238c6a53bc1cf424560a1347de";
 let globalTempCelsius = null; 
+let globalmaxTempObject = [];
+let globalminTempObject = []; 
 
 // Date and Time
 function changeTime(timestamp){
@@ -71,6 +73,8 @@ function displayWeather(response) {
 
 function displayForecast(response){
 console.log(response);
+globalmaxTempObject = [];
+globalminTempObject=[];
 for (let count = 0; count < 6; count ++){
 let hours = new Date (response.data.list[count].dt*1000).getHours();
 if (hours < 10) {
@@ -84,8 +88,11 @@ document.querySelector(`#time${count+1}`).innerHTML = `${hours}:${minutes} `;
 document.querySelector(`#maxTemp${count+1}`).innerHTML = `${Math.round(response.data.list[count].main.temp_max)}°`;
 document.querySelector(`#lowTemp${count+1}`).innerHTML = `/${Math.round(response.data.list[count].main.temp_min)}°`;
 document.querySelector(`#fcImg${count+1}`).innerHTML = `<img src="http://openweathermap.org/img/wn/${response.data.list[count].weather[0].icon}@2x.png" width = 60px>`;
+globalmaxTempObject.push (Math.round(response.data.list[count].main.temp_max));
+globalminTempObject.push( Math.round(response.data.list[count].main.temp_min));
 }
-
+ console.log(globalminTempObject);
+ console.log(globalmaxTempObject);
 
 }
 
@@ -146,6 +153,12 @@ position.addEventListener("click", getLocation);
 function convertCelciusToFarenheit(event){
     event.preventDefault();
     document.querySelector("#currentTemp").innerHTML = `${Math.round ((globalTempCelsius * 9/5) + 32)}°`;
+    //forecast conversion
+    for (let count = 0; count < 6; count ++){
+      document.querySelector(`#maxTemp${count+1}`).innerHTML = `${Math.round ((globalmaxTempObject[count] * 9/5) + 32)}°`;
+      document.querySelector(`#lowTemp${count+1}`).innerHTML = `/${Math.round ((globalminTempObject[count] * 9/5) + 32)}°`;
+    }
+    
     
     let unitF = document.querySelector("#tempF");
     unitF.classList.add("unit-used");
@@ -157,6 +170,11 @@ function convertCelciusToFarenheit(event){
 function convertFarenheitToCelcius(event){
     event.preventDefault();
     document.querySelector("#currentTemp").innerHTML = `${Math.round (globalTempCelsius)}°`;
+    //forecast conversion
+    for (let count = 0; count < 6; count ++){
+      document.querySelector(`#maxTemp${count+1}`).innerHTML = `${Math.round (globalmaxTempObject[count])}°`;
+      document.querySelector(`#lowTemp${count+1}`).innerHTML = `/${Math.round (globalminTempObject[count])}°`;
+    }
     
     let unitF = document.querySelector("#tempF");
     unitF.classList.remove("unit-used");
