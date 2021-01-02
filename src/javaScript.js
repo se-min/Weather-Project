@@ -1,3 +1,6 @@
+let apiKey = "774391238c6a53bc1cf424560a1347de";
+let globalTempCelsius = null; 
+
 // Date and Time
 function changeTime(timestamp){
 let timeElement = document.querySelector("#time");
@@ -52,11 +55,15 @@ function displayWeather(response) {
   let discription = document.querySelector("#discription");
   let humidity = document.querySelector("#humidity");
   let wind = document.querySelector("#wind");
+
   currentTemp.innerHTML = `${Math.round(response.data.main.temp)}°`;
   country.innerHTML = `, ${response.data.sys.country}`;
   discription.innerHTML = response.data.weather[0].description;
   humidity.innerHTML = `${response.data.main.humidity}%`;
   wind.innerHTML = `${Math.round(response.data.wind.speed * 3.6)} km/h`;
+
+  //updateing global temperature variable for conversion
+  globalTempCelsius = response.data.main.temp;
 
   //icon 
   console.log (response.data.weather[0].icon);
@@ -73,8 +80,6 @@ function displayWeather(response) {
 }
 
 // Default weather Berlin
-
-let apiKey = "774391238c6a53bc1cf424560a1347de";
 let defaultCity = "Berlin";
 let defaultUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultCity}&appid=${apiKey}&units=metric`;
 axios.get(defaultUrl).then(displayWeather);
@@ -85,9 +90,7 @@ axios.get(defaultUrl).then(displayWeather);
 
 function changeCity(event) {
   event.preventDefault();
-  let apiKey = "774391238c6a53bc1cf424560a1347de";
   let city = document.querySelector("#city-input").value;
-  console.log(city);
 
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
   axios.get(url).then(displayWeather);
@@ -117,12 +120,10 @@ position.addEventListener("click", getLocation);
 
 
 //Unit change
-function convertCelciusToFarenheit(event, response){
+function convertCelciusToFarenheit(event){
     event.preventDefault();
-    let max = document.querySelector("#currentTemp");
-    let min = document.querySelector("#tempMin");
-      
-
+    document.querySelector("#currentTemp").innerHTML = `${Math.round ((globalTempCelsius * 9/5) + 32)}°`;
+    
     let unitF = document.querySelector("#tempF");
     unitF.classList.add("unit-used");
 
@@ -132,10 +133,8 @@ function convertCelciusToFarenheit(event, response){
 
 function convertFarenheitToCelcius(event){
     event.preventDefault();
-    //let max = document.querySelector("#currentTemp");
-    //max.innerHTML = `${document.querySelector("#currentTemp")*9/5 +32}°`;
+    document.querySelector("#currentTemp").innerHTML = `${Math.round (globalTempCelsius)}°`;
     
-
     let unitF = document.querySelector("#tempF");
     unitF.classList.remove("unit-used");
 

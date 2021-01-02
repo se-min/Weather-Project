@@ -40,6 +40,12 @@ a:hover {
   font-size: 35px;
   color: black;
 }
+
+.unit-used:hover {
+  cursor: default;
+  color: black;
+}
+
 h1,
 h2,
 h3 {
