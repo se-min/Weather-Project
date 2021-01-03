@@ -2,6 +2,8 @@ let apiKey = "774391238c6a53bc1cf424560a1347de";
 let globalTempCelsius = null; 
 let globalmaxTempObject = [];
 let globalminTempObject = []; 
+let localOffsetToUTC = null;
+let cityOffsettoUTC = null;
 
 // Date and Time
 function changeTime(timestamp){
@@ -57,14 +59,13 @@ function displayWeather(response) {
   globalTempCelsius = response.data.main.temp;
 
   //icon 
-  console.log (response.data.weather[0].icon);
   document.querySelector("#icon").innerHTML = `<img src="http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png" width = 90px>`;
   
   // formatting time
   //calculate time difference from UTC at current position 
   let localTimestamp = new Date().getTime();
-  let localOffsetToUTC = new Date().getTimezoneOffset()*60000;
-  let cityOffsettoUTC = response.data.timezone *1000;
+  localOffsetToUTC = new Date().getTimezoneOffset()*60000;
+  cityOffsettoUTC = response.data.timezone *1000;
   let timestamp = localTimestamp + localOffsetToUTC + cityOffsettoUTC;
 
   changeTime (timestamp);
@@ -72,14 +73,24 @@ function displayWeather(response) {
 }
 
 function displayForecast(response){
-console.log(response);
 globalmaxTempObject = [];
 globalminTempObject=[];
 for (let count = 0; count < 6; count ++){
 let hours = new Date (response.data.list[count].dt*1000).getHours();
+//adjust hours to timezone
+hours = hours +((localOffsetToUTC+cityOffsettoUTC)/3600000);
+
+if (hours >= 24){
+  hours = hours-24;
+}
+if (hours < 0){
+  hours = 24 +hours;
+}
+
 if (hours < 10) {
   hours = `0${hours}`;
 }
+
 let minutes = new Date (response.data.list[count].dt*1000).getMinutes();
 if (minutes < 10) {
   minutes = `0${minutes}`;
@@ -91,8 +102,6 @@ document.querySelector(`#fcImg${count+1}`).innerHTML = `<img src="http://openwea
 globalmaxTempObject.push (Math.round(response.data.list[count].main.temp_max));
 globalminTempObject.push( Math.round(response.data.list[count].main.temp_min));
 }
- console.log(globalminTempObject);
- console.log(globalmaxTempObject);
 
 }
 
@@ -140,7 +149,6 @@ function myPosition(position) {
   let apiKey = "774391238c6a53bc1cf424560a1347de";
   let lat = position.coords.latitude;
   let long = position.coords.longitude;
-  console.log(`Latitude = ${lat}; Longitude = ${long}`);
   let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
   axios.get(url).then(displayWeather);
 }
