@@ -151,6 +151,10 @@ function myPosition(position) {
   let long = position.coords.longitude;
   let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
   axios.get(url).then(displayWeather);
+
+  // 3h slot forecast
+  let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
+  axios.get(forecastURL).then(displayForecast);
 }
 
 let position = document.querySelector("button");
